@@ -2,12 +2,8 @@ import React from 'react';
 
 const WeatherList = (props) => {
 
-	const renderedList = props.weather.map((weatherInfo) => {
 
-		return <div>{weatherInfo}</div>
-	});
-
-	return <div>{renderedList}</div>;
+	return <div>{props.weatherData}</div>;
 	
 
 };

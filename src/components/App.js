@@ -6,18 +6,18 @@ import WeatherList from './WeatherList';
 
 class App extends React.Component {
 
-	state = {weather: [] }; // step 5. set the response we get from api as state.
+	state = {weatherData: [] }; // step 5. set the response we get from api as state.
 
-	getZipCode = async (zipCode) => {
+	getZipCode = async (term) => {
 		const response = await OpenWeatherMap.get('/weather', {
 			params: {
-				q: zipCode
+				q: term
 			},
 
 		});
 
 		this.setState({
-			weather: response.data.main
+			weatherData: response.data.main.temp
 		});
 
 
@@ -28,7 +28,7 @@ class App extends React.Component {
 		return (
 			<div>
 				<SearchForm zipCode={this.getZipCode} />
-				<WeatherList weather={this.state.weather} />
+				<WeatherList weatherData={this.state.weatherData} />
 			</div>
 		);
 	}

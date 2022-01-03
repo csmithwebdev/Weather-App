@@ -3,20 +3,16 @@ import React from 'react';
 
 class SearchForm extends React.Component {
 
-	state = {zipCode: '' };
+	state = {term: '' };
 
 	userInput = (event) => { /*Step 4.*/
-		this.setState({zipCode: event.target.value});
-
-		
+		this.setState({term: event.target.value});
 	};
 
 	userSubmit = (event) => {
 		event.preventDefault();
+		this.props.zipCode(this.state.term);
 
-		this.props.zipCode(this.state.zipCode);
-
-		//console.log(this.state.zipCode);
 	};
 
 
@@ -30,7 +26,7 @@ class SearchForm extends React.Component {
 					<input 
 					className="form-control" 
 					type="text" 
-					value={this.state.zipCode}
+					value={this.state.term}
 					onChange={this.userInput}
 					/>
 
