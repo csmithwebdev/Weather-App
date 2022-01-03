@@ -12,7 +12,6 @@ class SearchForm extends React.Component {
 	userSubmit = (event) => {
 		event.preventDefault();
 		this.props.zipCode(this.state.term);
-
 	};
 
 
