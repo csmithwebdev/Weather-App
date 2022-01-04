@@ -3,7 +3,7 @@ import React from 'react';
 
 class SearchForm extends React.Component {
 
-	state = {term: '' };
+	state = {term: ''};
 
 	userInput = (event) => { /*Step 4.*/
 		this.setState({term: event.target.value});

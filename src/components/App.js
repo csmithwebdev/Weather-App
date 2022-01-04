@@ -1,6 +1,3 @@
-//TODO:
-// handle errors in zipcode...
-
 import React from 'react';
 import axios from 'axios';
 import OpenWeatherMap from './apis/OpenWeatherMap'; 
@@ -9,8 +6,7 @@ import WeatherList from './WeatherList';
 
 class App extends React.Component {
 
-	state = {weatherData: null, description: null}; //set the response we get from api as state.
-	errors = { errorMessage: '' };
+	state = {weatherData: null, description: null, errorMessage: null} //set the response we get from api as state.
 
 	getZipCode = async (term) => {
 		const response = await OpenWeatherMap.get('/weather', {
@@ -20,71 +16,52 @@ class App extends React.Component {
 		})
 
 		  .then(response => { 
+		  	if(response) {
+		  		this.setState(() => ({errorMessage: null}));
+		  	}
+
 		    this.setState({
 			weatherData: response.data.main, //Get main temperature from openweathermap json data
 			description: response.data.weather[0]
 			});
+
 		  }) 
 
 		  .catch(error => {
-		  	console.log(error.response.data);
-		   	this.setState(error.response.data);
-
+		  	if(error.response) {
+		  		this.setState(() => ({weatherData: null, description: null}));
+		  	}
+		  		console.log(error.response.data.message);
+		  		this.setState(() => ({errorMessage: error.response.data.message.toUpperCase()}));
 		  })
+
 		};
-
-
-
-//the issue is because Im setting state, not sure why yet...
-
 
 	
 	render() {
 
-		if (this.state.errorMessage) {
-			return (
-				<div>
-					<SearchForm zipCode={this.getZipCode} /><br />
-					<div className="container">{this.state.errorMessage}</div>
-				</div>
-			);
-		} else if (!this.state.weatherData) {
-
-			return (
-					<SearchForm zipCode={this.getZipCode} />
-				);
-
-		} else {
-
-			return (
-			<div>
-				<SearchForm zipCode={this.getZipCode} />
-				<WeatherList weatherData={this.state.weatherData} description={this.state.description} />
-			</div>
-			);
+		if(this.state.weatherData === null && this.state.errorMessage === null) {
+			return <div><SearchForm zipCode={this.getZipCode} /></div>;
 		}
-	}
-}
 
-
-export default App;
-
-
-/*
-if (this.state.errorMessage && !this.state.weatherData) {
+		if (this.state.weatherData && !this.state.errorMessage) {
 			return (
 				<div>
-					<SearchForm zipCode={this.getZipCode} /><br />
-					<div className="container">{this.state.errorMessage}</div>
+					<SearchForm zipCode={this.getZipCode} />
+					<WeatherList weatherData={this.state.weatherData} description={this.state.description} />
 				</div>
 			);
 		} 
 
-		if (!this.state.errorMessage && this.state.weatherData) {
+		if(this.state.errorMessage && this.state.weatherData === null ) {
 			return (
-			<div>
-				<SearchForm zipCode={this.getZipCode} />
-				<WeatherList weatherData={this.state.weatherData} description={this.state.description} />
-			</div>
-			);
-		}*/
+					<div>
+						<SearchForm zipCode={this.getZipCode} />
+						<div className="container" style={{marginTop: '20px'}}>{this.state.errorMessage}</div>
+					</div>
+				);
+		}
+	}
+}
+
+export default App;
