@@ -11,7 +11,7 @@ class SearchForm extends React.Component {
 
 	userSubmit = (event) => {
 		event.preventDefault();
-		this.props.zipCode(this.state.term);
+		this.props.ZipCode(this.state.term);
 	};
 
 
@@ -21,7 +21,7 @@ class SearchForm extends React.Component {
 		return (
 			<div className="container">
 				<form onSubmit={this.userSubmit}>
-					<label className="form-label" style={{marginTop: '20px'}} >Zip Code:</label>
+					<label className="form-label" style={{marginTop: '20px'}} >Enter Zipcode:</label>
 					<input 
 					className="form-control" 
 					type="text" 

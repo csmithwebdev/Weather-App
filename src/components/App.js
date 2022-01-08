@@ -6,49 +6,55 @@ import WeatherList from './WeatherList';
 
 class App extends React.Component {
 
-	state = {weatherData: null, description: null, errorMessage: null} //set the response we get from api as state.
+	state = {weatherData: [], errorMessage: null, cityInfo: null} //set the response we get from api as state.
 
 	getZipCode = async (term) => {
-		const response = await OpenWeatherMap.get('/weather', {
+		const response = await OpenWeatherMap.get('/forecast', {
 			params: {
-				q: term
+				zip: term
 			},
 		})
 
+
+		
 		  .then(response => { 
 		  	if(response) {
 		  		this.setState(() => ({errorMessage: null}));
 		  	}
 
 		    this.setState({
-			weatherData: response.data.main, //Get main temperature from openweathermap json data
-			description: response.data.weather[0]
+			weatherData: response.data.list,
+			cityInfo: response.data.city.name
 			});
+
+				//console.log(this.state.weatherData);
 
 		  }) 
 
+
 		  .catch(error => {
 		  	if(error.response) {
-		  		this.setState(() => ({weatherData: null, description: null}));
+		  		this.setState(() => ({weatherData: null}));
+		  		this.setState(() => ({weatherData: null}));
 		  	}
-		  		console.log(error.response.data.message);
-		  		this.setState(() => ({errorMessage: error.response.data.message.toUpperCase()}));
+		  		this.setState(() => ({errorMessage: 'Please enter a valid zipcode'}));
 		  })
 
 		};
+
 
 	
 	render() {
 
 		if(this.state.weatherData === null && this.state.errorMessage === null) {
-			return <div><SearchForm zipCode={this.getZipCode} /></div>;
+			return <div><SearchForm ZipCode={this.getZipCode} /></div>;
 		}
 
 		if (this.state.weatherData && !this.state.errorMessage) {
 			return (
 				<div>
-					<SearchForm zipCode={this.getZipCode} />
-					<WeatherList weatherData={this.state.weatherData} description={this.state.description} />
+					<SearchForm ZipCode={this.getZipCode} />
+					<WeatherList weatherData={this.state.weatherData} cityInfo={this.state.cityInfo} />
 				</div>
 			);
 		} 
@@ -56,7 +62,7 @@ class App extends React.Component {
 		if(this.state.errorMessage && this.state.weatherData === null ) {
 			return (
 					<div>
-						<SearchForm zipCode={this.getZipCode} />
+						<SearchForm ZipCode={this.getZipCode} />
 						<div className="container" style={{marginTop: '20px'}}>{this.state.errorMessage}</div>
 					</div>
 				);
