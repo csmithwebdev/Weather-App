@@ -2,47 +2,45 @@ import React from 'react';
 
 const WeatherList = ({cityInfo, weatherData}) => {
 
+const weatherDetails = weatherData.map(getWeatherDetails);
+const dailyWeatherArray = weatherDetails.filter(getDailyWeatherArray);
 
-		const renderedItems = weatherData.map((weather) => {
-		//we need to set state here.
+//Get a single array of days and temperatures
+function getWeatherDetails(item) { 
+		const weekday = ["Sun","Mon","Tue","Wed","Thurs","Fri","Sat"];
+		const unixDate = new Date(item.dt * 1000);
+		const currentDay = weekday[unixDate.getDay()];	
 
-		function getDayOfWeek() {
-			const weekday = ["Sun","Mon","Tue","Wed","Thurs","Fri","Sat"];
-			const unixDate = new Date(weather.dt * 1000);
-			return weekday[unixDate.getDay()];
-		}
+	return [currentDay, item.main.temp]
+}
 
-		function getFiveDays() {
-			const firstDay = new Date(weather.dt * 1000);
-			const todaysDate = new Date();
+console.log(weatherData);
 
-		}
-		
+//Get single array of Wednesday data
+function getDailyWeatherArray(item) {
+	return item.indexOf('Wed')!== -1;
+}
 
-		return (
-			<div className="" style={{marginTop: '10px'}} key={weather.dt}>
-				<div><strong>Temperature: </strong>{JSON.stringify(weather.main.temp)}</div> {/*convert objects to text*/}
-				<div>{getDayOfWeek()}</div>
-			</div>
+const maxTemp = Math.max.apply(Math, dailyWeatherArray.map(function(i) {
+	return i[1];
+}))
 
+const currentDayMaxTempArray = dailyWeatherArray.find(function(o){
+	return o[1] == maxTemp;
+})	
 
-			); 
+if(currentDayMaxTempArray !== undefined) {
+	var day = currentDayMaxTempArray[0];
+}
 
-		});
 
 		return(
 			<div className="container">
 				<br />
 				<h3>{cityInfo}</h3>
-				{renderedItems}
+				<p>{day} {maxTemp !== -Infinity ? maxTemp : ''}</p> <br />
 			</div>
 		);
-
-	
-	
-
-
-	
 
 };
 
@@ -50,11 +48,10 @@ export default WeatherList;
 
 
 
-{/*var myDate = new Date( 1641589200 *1000);
-console.log(myDate.toGMTString()+"<br>"+myDate.toLocaleString());*/}
 
-
-{/*const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-
-var myDate = new Date( 1641589200 *1000);
-console.log(weekday[myDate.getDay()]);*/}
+/*function getDayOfWeek() {
+			const weekday = ["Sun","Mon","Tue","Wed","Thurs","Fri","Sat"];
+			const unixDate = new Date(weather.dt * 1000);
+			const currentDay = weekday[unixDate.getDay()];
+			return currentDay;
+		}*/
