@@ -30,7 +30,6 @@ class App extends React.Component {
 
 		  }) 
 
-
 		  .catch(error => {
 		  	if(error.response) {
 		  		this.setState(() => ({weatherData: null}));
@@ -40,8 +39,6 @@ class App extends React.Component {
 		  })
 
 		};
-
-
 	
 	render() {
 

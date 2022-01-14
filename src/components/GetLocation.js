@@ -19,21 +19,6 @@ class GetLocation extends React.Component {
 		});
 	}	
 
-	
-
-	/*userInput = (event) => { 
-		this.setState({term: event.target.value});
-	};
-
-	userSubmit = (event) => {
-		event.preventDefault();
-		this.props.ZipCode(this.state.term);
-	};*/
-	//what i want is on page load, get lat and lon, then set state of lat and long, and pass back to app component.
-
-		
-
-
 	render() {
 
 		if (this.state.errorMessage) {

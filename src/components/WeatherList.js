@@ -5,7 +5,6 @@ const WeatherList = ({cityInfo, weatherData}) => {
 
 const weatherDetails = weatherData.map(getWeatherDetails);
 
-//Get a single array of days and temperatures
 function getWeatherDetails(item) { 
 		const weekday = ["Sun","Mon","Tue","Wed","Thurs","Fri","Sat"];
 		const unixDate = new Date(item.dt * 1000);
@@ -24,18 +23,10 @@ console.log(weatherDetails)
 				<h2>Weather Forecast</h2>
 
 				<div className="row">
-					<div className="col header">
-						Day
-					</div>
-					<div className="col header">
-						Desc
-					</div>
-					<div className="col header">
-						High
-					</div>
-					<div className="col header">
-						Low
-					</div>
+					<div className="col header">Day</div>
+					<div className="col header">Desc</div>
+					<div className="col header">High</div>
+					<div className="col header">Low</div>
 				</div>
 
 				<div className="row">
@@ -162,23 +153,7 @@ console.log(weatherDetails)
 	} else {
 		return <div></div>;
 	}
-	
-
-
-
-
-		
-
 };
 
 export default WeatherList;
 
-
-
-
-/*function getDayOfWeek() {
-			const weekday = ["Sun","Mon","Tue","Wed","Thurs","Fri","Sat"];
-			const unixDate = new Date(weather.dt * 1000);
-			const currentDay = weekday[unixDate.getDay()];
-			return currentDay;
-		}*/
