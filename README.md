@@ -1,1 +1,1 @@
-![](images/weather-forecast.png)
+![](images/weather.png)
